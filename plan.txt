@@ -15,11 +15,12 @@ classes:
     gateway
      - luminaire index
      - packet data per index
+     + get state data from luminaires
      + output to console (mqtt)
 
     grid
      - gridarray
-     + check if person there
+     + update grid icons
      + display grid
 
 functionality:
@@ -35,4 +36,4 @@ gateway publishes compendium of snapshots from all luminaires [to the console],
 at longer intervals.
 
 game loop that controls the time, moves people and updates luminaires every 
-tick, and prints grids to console.
+tick, and prints grid to console.
