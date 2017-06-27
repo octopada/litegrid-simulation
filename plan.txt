@@ -1,0 +1,38 @@
+classes:
+
+    luminaire
+     - position
+     - occupancy
+     - all other attributes
+     + detect person
+     + adjust state
+     + send state-data to gateway
+
+    person
+     - position
+     + move
+
+    gateway
+     - luminaire index
+     - packet data per index
+     + output to console (mqtt)
+
+    grid
+     - gridarray
+     + check if person there
+     + display grid
+
+functionality:
+
+person 'walks' across grid locations.
+some grid locations have luminaires.
+luminaire detects person in the same location.
+
+luminaire sends a snapshot of its state at regular time intervals to the
+gateway.
+
+gateway publishes compendium of snapshots from all luminaires [to the console],
+at longer intervals.
+
+game loop that controls the time, moves people and updates luminaires every 
+tick, and prints grids to console.
