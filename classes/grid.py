@@ -12,6 +12,9 @@ class Grid:
         # for console output
         self.grid = [['.' for x in range(width)] for y in range(height)]
 
+        # for detecting occupancy
+        self.occupied = [[False for x in range(width)] for y in range(height)]
+
         self.width = width
         self.height = height
         self.people = []
@@ -26,6 +29,12 @@ class Grid:
                 print(self.grid[x][y], end=' ')
             print('\n', end='')
 
+    def refresh_occupancy(self):
+        '''resets the occupancy grid to all False'''
+        for x in range(self.height):
+            for y in range(self.width):
+                self.occupied[x][y] = False
+
     def refresh_grid(self):
         '''clears grid and adds luminaire icons'''
 
@@ -34,8 +43,11 @@ class Grid:
 
         # re-add the luminaire icons
         for luminaire in self.luminaires:
-            (x, y) = luminaire.get_position()
+            (x, y) = luminaire.get_position() ## will it work without import?
             self.grid[x][y] = 'L'
+
+        # reset occupancy grid
+        self.refresh_occupancy()
 
     def add_luminaire(self, luminaire):
         '''add a static luminaire to the grid'''
@@ -43,7 +55,7 @@ class Grid:
 
         # reverse link
         luminaire.set_grid(self)
-        
+
         self.refresh_grid()
 
     def add_person(self, person):
@@ -53,7 +65,16 @@ class Grid:
     def track_people(self):
         '''updates the positions of the people in the grid'''
         self.refresh_grid()
+
+        # add icon to grid at each person's position
         for person in self.people:
-            (x, y) = person.get_position()
-            self.grid[x][y] = 'p' # this will overwrite the luminaire icon
+            (x, y) = person.get_position() ## will it work without import?
+            self.grid[x][y] = 'p' ## this will overwrite the luminaire icon
+            self.occupied[x][y] = True
+
+    def is_occupied(self, position):
+        '''returns true if position has person in it'''
+        x = position[0]
+        y = position[1]
+        return self.occupied[x][y]
 
