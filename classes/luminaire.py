@@ -21,7 +21,7 @@ class Luminaire:
         '''check if there is a person [under] the luminaire'''
         if self.grid.is_occupied(self.position): 
             self.occupancy = True
-            print 'light on'
+            print self.name + ' on'
         else:
             self.occupancy = False
 
