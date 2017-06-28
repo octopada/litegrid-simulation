@@ -9,10 +9,15 @@ class Gateway:
         self.luminaires = []
         self.luminaireStateData = [] # list of dictionaries
 
-    def get_state_data(self):
+    def add_luminaire(self, luminaire):
+        '''adds a luminaire to collect data from to the gateway'''
+        self.luminaires.append(luminaire)
+
+    def get_state_data(self, time):
         '''pull state data from all luminaires associated with this gateway'''
         for luminaire in self.luminaires:
-            stateData = luminaire.get_state() ## will it work without import?
+            stateData = luminaire.get_state()
+            stateData['timestamp'] =  time
             self.luminaireStateData.append(stateData)
 
     def publish_state_data(self):

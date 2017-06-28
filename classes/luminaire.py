@@ -19,8 +19,9 @@ class Luminaire:
 
     def check_occupancy(self):
         '''check if there is a person [under] the luminaire'''
-        if self.grid.is_occupied(position): ## will it work without import?
+        if self.grid.is_occupied(self.position): 
             self.occupancy = True
+            print 'light on'
         else:
             self.occupancy = False
 

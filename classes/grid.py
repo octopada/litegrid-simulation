@@ -5,7 +5,11 @@ class Grid:
     '''defines the office space in the form of a 2D Array'''
 
     # default grid is 10x10, pass width and height when instantiating to 
-    # override this behavior
+    # override this behavior. 
+    #
+    # origin is top left.
+    # value of x determines how many steps DOWN.
+    # value of y determines how many steps to the RIGHT.
     def __init__(self, width=10, height=10):
         '''constructs an instance of Grid'''
 
@@ -28,6 +32,7 @@ class Grid:
             for y in range(self.width):
                 print(self.grid[x][y], end=' ')
             print('\n', end='')
+        print('\n', end='')
 
     def refresh_occupancy(self):
         '''resets the occupancy grid to all False'''
@@ -39,11 +44,12 @@ class Grid:
         '''clears grid and adds luminaire icons'''
 
         # clear all 
-        self.grid = [['.' for x in range(width)] for y in range(height)]
+        self.grid = [
+            ['.' for x in range(self.width)] for y in range(self.height)]
 
         # re-add the luminaire icons
         for luminaire in self.luminaires:
-            (x, y) = luminaire.get_position() ## will it work without import?
+            (x, y) = luminaire.get_position()
             self.grid[x][y] = 'L'
 
         # reset occupancy grid
@@ -62,15 +68,24 @@ class Grid:
         '''add a person to be tracked to the grid'''
         self.people.append(person)
 
+    def delete_person(self, person):
+        '''removes a person from the grid tracking'''
+        people.remove(person)
+
     def track_people(self):
         '''updates the positions of the people in the grid'''
         self.refresh_grid()
 
         # add icon to grid at each person's position
         for person in self.people:
-            (x, y) = person.get_position() ## will it work without import?
-            self.grid[x][y] = 'p' ## this will overwrite the luminaire icon
-            self.occupied[x][y] = True
+            (x, y) = person.get_position()
+
+            try:
+                self.grid[x][y] = 'p' # overwrites luminaire icon
+            except IndexError:
+                pass # gone out of the grid (can return)
+            else:
+                self.occupied[x][y] = True
 
     def is_occupied(self, position):
         '''returns true if position has person in it'''
