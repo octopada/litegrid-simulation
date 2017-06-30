@@ -17,7 +17,7 @@ class Person:
         x = self.position[0]
         y = self.position[1]
 
-        print 'Press WASD to move person'
+        print 'Press WASD to move person, X to quit'
         input_char = getch()
 
         if input_char.upper() == 'W':

@@ -1,6 +1,7 @@
 # classfile for the Grid class
 from __future__ import print_function
 
+
 class Grid:
     '''defines the office space in the form of a 2D Array'''
 
@@ -92,4 +93,8 @@ class Grid:
         x = position[0]
         y = position[1]
         return self.occupied[x][y]
+
+    def get_dimensions(self):
+        '''returns height and width of the grid in a tuple'''
+        return (self.height, self.width)
 
