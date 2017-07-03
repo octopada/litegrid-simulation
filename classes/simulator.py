@@ -13,11 +13,11 @@ class Simulator:
     '''singleton class that will run the simulation'''
 
     @classmethod
-    def setup(cls, people_count):
+    def setup(cls, people_count, grid_width, grid_height):
         '''constructs an instance of Simulator'''
 
         # construct grid and gateway
-        cls.grid = Grid()
+        cls.grid = Grid(grid_width, grid_height)
         cls.gateway = Gateway()
 
         # construct arbitrary luminaire grid

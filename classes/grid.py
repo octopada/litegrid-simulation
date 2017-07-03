@@ -5,13 +5,10 @@ from __future__ import print_function
 class Grid:
     '''defines the office space in the form of a 2D Array'''
 
-    # default grid is 11x11, pass width and height when instantiating to 
-    # override this behavior. 
-    #
     # origin is top left.
     # value of x determines how many steps DOWN.
     # value of y determines how many steps to the RIGHT.
-    def __init__(self, width=11, height=11):
+    def __init__(self, width, height):
         '''constructs an instance of Grid'''
 
         # for console output
