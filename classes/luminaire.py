@@ -33,13 +33,18 @@ class Luminaire:
             self.occupancy = False
         return self.occupancy
 
-    def adjust_dimming(self):
+    def adjust_dimming(self, step):
         '''adjust dim level according to occupancy'''
 
         # full brightness when occupancy is true
         if self.occupancy:
             self.dim_lvl = 100
             print self.name + ' dimLvl: ' + str(self.dim_lvl)
+
+            # push data only on first step when occupancy turns on
+            if self.countdown != 30: 
+                self.push_data(step)
+
             self.countdown = 30 # 30 ticks to gradually dim
         
         # gradual dimming
@@ -56,10 +61,10 @@ class Luminaire:
                 pass
             self.countdown = self.countdown-1
 
-    def update_state(self):
+    def update_state(self, step):
         '''handle state changes'''
         self.check_occupancy()
-        self.adjust_dimming()
+        self.adjust_dimming(step)
 
     def get_position(self):
         '''returns co-ordinates of the luminaire as a tuple'''

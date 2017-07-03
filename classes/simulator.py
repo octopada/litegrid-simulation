@@ -79,7 +79,7 @@ class Simulator:
 
             # update luminaire states
             for luminaire in cls.luminaires:
-                luminaire.update_state()
+                luminaire.update_state(step)
 
             # luminaires push data every 10 ticks, using step as timestamp
             if step%10 == 0:
@@ -125,7 +125,7 @@ class Simulator:
 
             # update luminaire states
             for luminaire in cls.luminaires:
-                luminaire.update_state()
+                luminaire.update_state(step)
 
             # luminaires push data every 10 ticks, using step as timestamp
             if step%10 == 0:
