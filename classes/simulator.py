@@ -37,7 +37,6 @@ class Simulator:
 
         # construct people and place them randomly
         cls.people = []
-
         for count in range(people_count):
             person_x = randint(0, grid_height-1)
             person_y = randint(0, grid_width-1)
@@ -54,8 +53,8 @@ class Simulator:
             cls.grid.add_person(person)
         cls.grid.track_people()
 
-    # pass user_prompt as True to get 'press to continue' function
-    # default behavior is 2 second sleep
+    # pass user_prompt as True to get 'press to continue' functionality
+    # default behavior is 0.5 second sleep
     @classmethod
     def run_random(cls, step_count, user_prompt=False):
         '''run simulation with random person movement for given steps'''
