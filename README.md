@@ -2,9 +2,13 @@
 
 Run main.py to start.
 
+`python main.py`
+
+
 All class definitions must go in the 'classes' folder.
 
 Uses msvcrt module for keyboard input on Windows.
+
 
 Uses colorama module for console output coloring. Requires install:
 
