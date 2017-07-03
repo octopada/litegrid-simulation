@@ -1,6 +1,11 @@
 # classfile for the Grid class
 from __future__ import print_function
 
+from colorama import Fore, init
+
+# for console coloring
+init()
+
 
 class Grid:
     '''defines the office space in the form of a 2D Array'''
@@ -28,9 +33,17 @@ class Grid:
         # print each element of the grid in row major
         for x in range(self.height):
             for y in range(self.width):
-                print(self.grid[x][y], end=' ')
+
+                # colour each type of icon separately for distinguishability
+                if self.grid[x][y] == 'L':
+                    print(Fore.YELLOW + self.grid[x][y], end=' ')
+                elif self.grid[x][y] == 'p':
+                    print(Fore.MAGENTA + self.grid[x][y], end=' ')
+                else:
+                    print(Fore.WHITE + self.grid[x][y], end=' ')
+
             print('\n', end='')
-        print('\n', end='')
+        print(Fore.WHITE + '\n', end='') # clear color
 
     def refresh_occupancy(self):
         '''resets the occupancy grid to all False'''
