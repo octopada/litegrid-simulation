@@ -59,25 +59,32 @@ class Simulator:
     @classmethod
     def run_random(cls, step_count, user_prompt=False):
         '''run simulation with random person movement for given steps'''
-        sleep_time = 2
+        sleep_time = 0.5
         for step in range(step_count):
 
-            # show grid
-            cls.grid.print_grid()
+            print 'step ' + str(step)
 
-            # move people
-            for person in cls.people:
-                person.random_move()
+            # movement every 4 ticks
+            if step%4 == 0:
 
-            # track people in grid
-            cls.grid.track_people()
+                # show grid
+                cls.grid.print_grid()
 
-            # check occupancy
+                # move people
+                for person in cls.people:
+                    person.random_move()
+
+                # track people in grid
+                cls.grid.track_people()
+
+            # update luminaire states
             for luminaire in cls.luminaires:
-                luminaire.check_occupancy()
+                luminaire.update_state()
 
-            # gateway collects data, using step as timestamp
-            cls.gateway.get_state_data(step)
+            # luminaires push data every 10 ticks, using step as timestamp
+            if step%10 == 0:
+                for luminaire in cls.luminaires:
+                    luminaire.push_data(step)
 
             # pause for visualization
             wait = True
@@ -104,20 +111,26 @@ class Simulator:
         step = 0
         while not quit:
 
-            # show grid
-            cls.grid.print_grid()
+            print 'step ' + str(step) 
 
-            # move and track people
-            for person in cls.people:
-                quit = person.controlled_move()
-                cls.grid.track_people()
+            # move and track people every 4 ticks
+            if step%4 == 0:
 
-                # check occupancy
+                # show grid
+                cls.grid.print_grid()
+
+                for person in cls.people:
+                    quit = person.controlled_move()
+                    cls.grid.track_people()
+
+            # update luminaire states
+            for luminaire in cls.luminaires:
+                luminaire.update_state()
+
+            # luminaires push data every 10 ticks, using step as timestamp
+            if step%10 == 0:
                 for luminaire in cls.luminaires:
-                    luminaire.check_occupancy()
-
-            # gateway collects data, using step as timestamp
-            cls.gateway.get_state_data(step)
+                    luminaire.push_data(step)
             step = step+1
 
         # output

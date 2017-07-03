@@ -6,7 +6,7 @@ from classes.simulator import Simulator
 # globals
 PEOPLE_COUNT_RANDOM = 5
 PEOPLE_COUNT_CONTROLLED = 1 # multiple persons will have to moved one by one
-STEP_COUNT = 7
+STEP_COUNT = 50
 USER_PROMPT = False # change to true to disable sleep timer in random mode
 GRID_WIDTH = 11
 GRID_HEIGHT = 11

@@ -79,10 +79,6 @@ class Grid:
         '''add a person to be tracked to the grid'''
         self.people.append(person)
 
-    def delete_person(self, person):
-        '''removes a person from the grid tracking'''
-        people.remove(person)
-
     def track_people(self):
         '''updates the positions of the people in the grid'''
         self.refresh_grid()
@@ -107,4 +103,8 @@ class Grid:
     def get_dimensions(self):
         '''returns height and width of the grid in a tuple'''
         return (self.height, self.width)
+
+    # def delete_person(self, person):
+    #     '''removes a person from the grid tracking'''
+    #     people.remove(person)
 
