@@ -9,6 +9,7 @@ class Person:
     def __init__(self, x, y):
         '''constructs an instance of Person'''
         self.position = (x, y)
+        self.grid = None
 
     def controlled_move(self):
         '''changes position according to input'''
@@ -17,17 +18,23 @@ class Person:
         x = self.position[0]
         y = self.position[1]
 
+        (lower_bound, right_bound) = self.grid.get_dimensions()
+
         print 'Press WASD to move person, X to quit'
         input_char = getch()
 
         if input_char.upper() == 'W':
-            x = x-1
+            if x != 0:
+                x = x-1
         elif input_char.upper() == 'A':
-            y = y-1
+            if y != 0:
+                y = y-1
         elif input_char.upper() == 'S':
-            x = x+1
+            if x != lower_bound-1:
+                x = x+1
         elif input_char.upper() == 'D':
-            y = y+1
+            if y != right_bound-1:
+                y = y+1
         elif input_char.upper() == 'X':
             quit = True
         else:
@@ -43,6 +50,8 @@ class Person:
         x = self.position[0]
         y = self.position[1]
 
+        (lower_bound, right_bound) = self.grid.get_dimensions()
+
         # 1 - UP
         # 2 - LEFT
         # 3 - DOWN
@@ -50,18 +59,25 @@ class Person:
         direction = randint(1, 4)
 
         if direction == 1:
-            x = x-1
+            if x != 0:
+                x = x-1
         elif direction == 2:
-            y = y-1
+            if y != 0:
+                y = y-1
         elif direction == 3:
-            x = x+1
+            if x != lower_bound-1:
+                x = x+1
         elif direction == 4:
-            y = y+1
+            if y != right_bound-1:
+                y = y+1
 
         self.position = (x, y)
-
 
     def get_position(self):
         '''returns co-ordinates of the person as a tuple'''
         return self.position
+
+    def set_grid(self, grid):
+        '''specify the grid in which the person resides'''
+        self.grid = grid
 

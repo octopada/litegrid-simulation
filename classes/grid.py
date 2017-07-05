@@ -79,6 +79,9 @@ class Grid:
         '''add a person to be tracked to the grid'''
         self.people.append(person)
 
+        # reverse link
+        person.set_grid(self)
+
     def track_people(self):
         '''updates the positions of the people in the grid'''
         self.refresh_grid()
