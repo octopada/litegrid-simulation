@@ -12,6 +12,7 @@ class Gateway:
 
     def __init__(self):
         '''constructs an instance of Gateway'''
+        self.name = 'test_gateway'
         self.luminaires = []
         self.luminaireStateData = [] # list of dictionaries
 
@@ -28,11 +29,23 @@ class Gateway:
 
     def publish_state_data(self):
         '''output collected state data to [console]'''
-        print self.luminaireStateData ## raw
 
-        mqtt_server = "0.0.0.0"
-        mqtt_client = mqtt.Client()
-        mqtt_client.connect(mqtt_server)
+        # specify mqtt broker address and port
+        broker_address = "localhost"
+        port = 1883
+
+        # create client and connect to broker
+        mqtt_client = mqtt.Client("sim")
+        mqtt_client.connect(broker_address, port)
+        mqtt_client.loop_start()
+
+        # publish all records to broker
+        for record in self.luminaireStateData:
+
+            # publish under topic
+            topic = self.name + '/' + record['name']
+            print 'posting: ' + topic + ' : ' + str(record)
+            mqtt_client.publish(topic, str(record))
 
     def push_event_to_luminaires(self, event):
         '''adds event to all luminaires queues'''

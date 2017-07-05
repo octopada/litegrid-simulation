@@ -8,8 +8,8 @@ PEOPLE_COUNT_RANDOM = 5
 PEOPLE_COUNT_CONTROLLED = 1 # multiple persons will have to moved one by one
 STEP_COUNT = 50
 USER_PROMPT = False # change to true to disable sleep timer in random mode
-GRID_WIDTH = 11 # best to keep it odd, the arbitrary luminaire grid fits well
-GRID_HEIGHT = 11 # same as above
+GRID_WIDTH = 5 # best to keep it odd, the arbitrary luminaire grid fits well
+GRID_HEIGHT = 5 # same as above
 
 # menu
 print '1. Random Person Movement'
