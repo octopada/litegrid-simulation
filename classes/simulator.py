@@ -130,9 +130,20 @@ class Simulator:
                 luminaire.update_state(step)
 
             # luminaires push data every 10 ticks, using step as timestamp
+            all_threads_ok = True
             if step%10 == 0:
                 for luminaire in cls.luminaires:
                     luminaire.push_data(step)
+
+                    # also check status of threads
+                    thread_ok = luminaire.check_thread()
+                    all_threads_ok = all_threads_ok and thread_ok
+
+                if all_threads_ok:
+                    print 'all luminaire threads OK'
+                else:
+                    print 'some luminaire threads have died'
+
             step = step+1
 
         # output

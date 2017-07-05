@@ -14,6 +14,7 @@ class Luminaire:
         self.source = 'grid'
         self.bat_charging = 'grid'
         self.event_queue = Queue()
+        self.thread_alive = False
 
         self.grid = None
         self.gateway = None
@@ -85,6 +86,15 @@ class Luminaire:
         self.check_occupancy()
         self.adjust_dimming(step)
 
+    def check_thread(self):
+        '''checks if thread is still alive'''
+        if self.thread_alive:
+            self.thread_alive = False
+            return True
+        else:
+            return False
+
+
     def get_position(self):
         '''returns co-ordinates of the luminaire as a tuple'''
         return self.position
@@ -105,6 +115,7 @@ class Luminaire:
     def luminaire_thread(self):
         '''makes adjustments according to events'''
         while True:
+            self.thread_alive = True
             try:
 
                 # check for events in the queue and process them
