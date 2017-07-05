@@ -1,6 +1,7 @@
 # classfile for the Gateway class
-import thread
+import paho.mqtt.client as mqtt
 import socket
+import thread
 
 # test import
 from time import sleep
@@ -29,9 +30,12 @@ class Gateway:
         '''output collected state data to [console]'''
         print self.luminaireStateData ## raw
 
+        mqtt_server = "0.0.0.0"
+        mqtt_client = mqtt.Client()
+        mqtt_client.connect(mqtt_server)
+
     def push_event_to_luminaires(self, event):
         '''adds event to all luminaires queues'''
-        print 'pushing'
         for luminaire in self.luminaires:
             luminaire.add_event_to_queue(event)
 
@@ -50,12 +54,6 @@ class Gateway:
         s.bind((host, port))
         s.listen(5)
 
-        # test
-        self.push_event_to_luminaires('source-battery')
-        sleep(5)
-        self.push_event_to_luminaires('source-grid')
-
-        ## indicate connection received
         while True:
             c, addr = s.accept() 
 
