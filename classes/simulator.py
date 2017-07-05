@@ -48,6 +48,9 @@ class Simulator:
             cls.grid.add_luminaire(luminaire)
             cls.gateway.add_luminaire(luminaire)
 
+        # start event listener
+        cls.gateway.start_gateway_thread()
+
         # add people to grid
         for person in cls.people:
             cls.grid.add_person(person)

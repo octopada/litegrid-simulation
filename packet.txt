@@ -1,0 +1,19 @@
+        self.point = [{
+            "measurement": "log",
+            "tags": {
+                "lum_address": None                
+            },
+            "fields": {
+                "lum_address_f": None,            
+                "bib_mode": None,
+                "pir_status": None,           
+                "bat_state": None,
+                "bat_soc": None,
+                "xsr_power": None,
+                "led_power": None,
+                "bat_power": None,
+                "lum_op_mode": None,
+                "faults": None,
+                "bright_level": None
+            }
+        }]

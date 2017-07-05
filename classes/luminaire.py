@@ -1,4 +1,6 @@
-# classfile for theLuminaire class
+# classfile for the Luminaire class
+from multiprocessing import Queue
+import thread
 
 
 class Luminaire:
@@ -8,13 +10,30 @@ class Luminaire:
         '''constructs an instance of Luminaire'''
         self.name = name
         self.position = (x, y)
-        ## add other attributes here
+
+        self.source = 'grid'
+        self.bat_charging = 'grid'
+        self.event_queue = Queue()
 
         self.grid = None
         self.gateway = None
-        self.occupancy = False;
+        self.occupancy = False
         self.dim_lvl = 70
         self.countdown = 0 # for gradual dimming after occupancy is gone
+
+        self.lum_address = None
+        self.bib_mode = None
+        self.pir_status = None
+        self.bat_state = None
+        self.bat_soc = None
+        self.xsr_power = None
+        self.led_power = None
+        self.bat_power = None
+        self.lum_op_mode = None
+        self.faults = None
+        self.bright_level = None
+
+        thread.start_new_thread(self.luminaire_thread, ())
 
     def set_grid(self, grid):
         '''specify the grid in which the luminaire resides'''
@@ -78,6 +97,41 @@ class Luminaire:
         state['occupancy'] = self.occupancy
         state['dimLvl'] = self.dim_lvl
         self.gateway.store_state(state)
+
+    def add_event_to_queue(self, event):
+        '''adds an event to be processed in the queue'''
+        self.event_queue.put(event)
+
+    def luminaire_thread(self):
+        '''makes adjustments according to events'''
+        while True:
+            try:
+
+                # check for events in the queue and process them
+                if not self.event_queue.empty():
+                    event = self.event_queue.get()
+                    
+                    if event == 'source-grid':
+                        self.source = 'grid'
+                    elif event == 'source-battery':
+                        self.source = 'battery'
+                    elif event == 'charging-grid':
+                        self.bat_charging = 'grid'
+                    elif event == 'charging-solar':
+                        self.bat_charging = 'solar'
+                    else:
+                        pass
+
+            except IOError:
+                pass
+
+    # def set_source(self, source):
+    #     '''specify source of power for the luminaire'''
+    #     self.source = source
+
+    # def set_bat_charging(self, charging_source):
+    #     '''specify source from which battery should charge'''
+    #     self.bat_charging = charging_source
 
     # def get_state(self):
     #     '''returns attributes of the luminaire in a dictionary'''

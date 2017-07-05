@@ -1,4 +1,9 @@
 # classfile for the Gateway class
+import thread
+import socket
+
+# test import
+from time import sleep
 
 
 class Gateway:
@@ -23,6 +28,55 @@ class Gateway:
     def publish_state_data(self):
         '''output collected state data to [console]'''
         print self.luminaireStateData ## raw
+
+    def push_event_to_luminaires(self, event):
+        '''adds event to all luminaires queues'''
+        print 'pushing'
+        for luminaire in self.luminaires:
+            luminaire.add_event_to_queue(event)
+
+    def start_gateway_thread(self):
+        '''starts the event listener'''
+        self.listening = True
+        thread.start_new_thread(self.event_listener, ())    
+
+    def event_listener(self):
+        '''thread that listens for message from ILEM'''
+
+        # create socket
+        s = socket.socket()
+        host = socket.gethostname()
+        port = 9701 # arbitrary, placeholder
+        s.bind((host, port))
+        s.listen(5)
+
+        # test
+        self.push_event_to_luminaires('source-battery')
+        sleep(5)
+        self.push_event_to_luminaires('source-grid')
+
+        ## indicate connection received
+        while True:
+            c, addr = s.accept() 
+
+            # receive packet
+            packet = s.recv(1024)
+
+            ## placeholder until structure of packet is known
+            if packet == 'Source - Grid':
+                event = 'source-grid'
+            elif packet == 'Source - Battery':
+                event = 'source-battery'
+            elif packet == 'Battery Charging - Grid':
+                event = 'charging-grid'
+            elif packet == 'Battery Charging - Solar':
+                event = 'charging-solar'
+            else:
+                print 'received instructions unclear'
+
+            self.push_event_to_luminaires(event)
+
+            c.close() 
 
     # def get_state_data(self, time):
     #     '''pull state data from all luminaires associated with this gateway'''
